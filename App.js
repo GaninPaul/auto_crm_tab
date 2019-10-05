@@ -9,8 +9,6 @@
 import React, { Component } from "react";
 import { StyleSheet, View } from "react-native";
 import AppNavigator from "./src/entry/AppNavigator";
-import Logs from "./src/store/Logs";
-import { SetUp } from "./src/service/Setup";
 
 type Props = {};
 

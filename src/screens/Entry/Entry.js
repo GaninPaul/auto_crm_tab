@@ -1,144 +1,137 @@
 import React from "react";
-import { Container, Content, Body, Text, Button, Input } from "native-base";
-import { ActivityIndicator, View } from "react-native";
+import { View, Text, ScrollView } from "react-native";
+import { createUserJWT, IsAuth, SetIsAuth, verifyTokens } from "service/Auth";
 import {
-  createUserJWT,
-  IsAuth,
-  SetIsAuth,
-  verifyTokens
-} from "../../service/Auth";
-import { getServerAddress, setServerAddress, SetUp } from "../../service/Setup";
-import Logs from "../../store/Logs";
+  getPassword,
+  getServerAddress,
+  setServerAddress,
+  SetUp,
+  getUsername,
+  setUsername,
+  setPassword
+} from "service/Setup";
+import Logs from "store/Logs";
+import styles from "./Entry.styles";
+import RoundButton from "components/RoundButton";
+import Input from "components/Input";
+import { observable } from "mobx";
+import { observer } from "mobx-react";
+import ActivityIndicator from "components/Icons/ActivityIndicator";
 
+@observer
 class Entry extends React.Component {
+  @observable isLoading = false;
+  @observable hasNetWorkError = false;
+  @observable serverAddress = "";
+  @observable username = "";
+  @observable password = "";
+
   componentDidMount() {
     this.fetch();
   }
-  state = { hasNetWorkError: false, serverAddress: "" };
+
+  login = async () => {
+    if (await verifyTokens()) {
+      SetIsAuth(true);
+    }
+    if (!IsAuth()) {
+      await createUserJWT({
+        username: this.username,
+        password: this.password
+      });
+    }
+  };
+
   fetch = async () => {
     try {
+      this.isLoading = true;
       await SetUp();
       console.log("SERVER_ADDRESS", getServerAddress());
-      this.setState({ serverAddress: getServerAddress() });
-      if (await verifyTokens()) {
-        SetIsAuth(true);
-      }
-      if (!IsAuth())
-        await createUserJWT({
-          username: "pganin",//"admin",
-          password: "evdh5r36"
-        });
-      await Logs.init();
+      this.serverAddress = getServerAddress();
+      this.username = getUsername();
+      this.password = getPassword();
+      // await this.login();
+      // await Logs.init();
+      this.isLoading = false;
       this.props.navigation.navigate("SaleScreen");
     } catch (e) {
       console.log(e);
-      this.setState({ hasNetWorkError: true });
+      this.hasNetWorkError = true;
+      this.isLoading = false;
     }
   };
 
   handleInput = value => {
-    setServerAddress(value);
-    this.setState({ serverAddress: value });
+    this.serverAddress = value;
   };
+
+  handleUsername = value => {
+    this.username = value;
+  };
+
+  handlePassword = value => {
+    this.password = value;
+  };
+
+  reconnect = async () => {
+    setServerAddress(this.serverAddress);
+    setUsername(this.username);
+    setPassword(this.password);
+    await this.fetch();
+  };
+
+  renderNetWorkError = () => {
+    return (
+      <View style={styles.errorWrapper}>
+        <Text style={styles.textError}>Проблемы с подключением к серверу!</Text>
+        <Input
+          onChangeText={this.handleInput}
+          value={this.serverAddress}
+          label="Адресс сервера"
+        />
+        <Input
+          onChangeText={this.handleUsername}
+          value={this.username}
+          label="Пользователь"
+        />
+        <Input
+          onChangeText={this.handlePassword}
+          value={this.password}
+          inputProps={{ secureTextEntry: true }}
+        />
+        <RoundButton
+          title="Переподключиться"
+          isLoading={this.isLoading}
+          style={styles.button}
+          onPress={this.reconnect}
+        />
+      </View>
+    );
+  };
+
+  renderConnect() {
+    return (
+      <View style={styles.loadingWrapper}>
+        <Text style={styles.loadingText}>Загрузка</Text>
+        <ActivityIndicator width={32} height={32} color="#0000ff" />
+      </View>
+    );
+  }
 
   render() {
     return (
-      <Container>
-        <Content>
-          <Body style={{ flex: 1, height: "100%" }}>
-            <Text
-              style={{
-                fontSize: 35,
-                color: "#111",
-                textAlign: "center",
-                marginTop: 20
-              }}
-            >
-              ОНЛАЙН ТЕРМИНАЛ
-            </Text>
-            <Text
-              style={{
-                marginTop: 10,
-                fontSize: 20,
-                color: "#808080",
-                textAlign: "center",
-                marginBottom: 10
-              }}
-            >
-              В случае возникновения проблем надо будет{"\n"}сфотографировать
-              экран устройства с ошибкой
-            </Text>
-            {this.state.hasNetWorkError ? (
-              <View style={{ alignItems: "center" }}>
-                <Text
-                  style={{
-                    fontSize: 35,
-                    color: "#8B0000",
-                    textAlign: "center"
-                  }}
-                >
-                  Проблемы с подключением к серверу!
-                </Text>
-                <Input
-                  style={{
-                    width: "100%",
-                    maxHeight: 45,
-                    fontSize: 20,
-                    borderColor: "#000",
-                    borderWidth: 1,
-                    margin: 10
-                  }}
-                  onChangeText={this.handleInput}
-                  value={this.state.serverAddress}
-                />
-                <Button
-                  rounded
-                  danger
-                  style={{ marginLeft: "auto", marginRight: "auto" }}
-                  onPress={() => {
-                    this.setState({ hasNetWorkError: false });
-                    this.fetch();
-                  }}
-                >
-                  <Text style={{ fontSize: 25 }}>Переподключиться</Text>
-                </Button>
-              </View>
-            ) : (
-              <View
-                style={{
-                  marginTop: 10,
-                  flexDirection: "row",
-                  justifyContent: "center"
-                }}
-              >
-                <Text
-                  style={{
-                    marginTop: 5,
-                    marginRight: 15,
-                    fontSize: 15,
-                    color: "#888888",
-                    textAlign: "center"
-                  }}
-                >
-                  Загрузка
-                </Text>
-                <ActivityIndicator size="large" color="#0000ff" />
-              </View>
-            )}
-            <Text
-              style={{
-                marginLeft: "auto",
-                marginTop: "50%",
-                fontSize: 15,
-                color: "#C0C0C0",
-                textAlign: "right"
-              }}
-            >
-              @GaninPaul - frontend{"\n"}@Dihset - backend
-            </Text>
-          </Body>
-        </Content>
-      </Container>
+      <View style={styles.container}>
+        <ScrollView style={styles.content}>
+          <Text style={styles.title}>ОНЛАЙН ТЕРМИНАЛ</Text>
+          <Text style={styles.subTitle}>
+            В случае возникновения проблем надо будет сфотографировать экран
+            устройства с ошибкой
+          </Text>
+          {this.hasNetWorkError
+            ? this.renderNetWorkError()
+            : this.renderConnect()}
+        </ScrollView>
+      </View>
     );
   }
 }

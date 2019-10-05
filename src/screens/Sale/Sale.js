@@ -12,15 +12,15 @@ import {
   Body,
   Icon,
   Text,
-  Picker,
+  Picker
 } from "native-base";
-import { Alert, View, FlatList } from "react-native";
+import { Alert, View, FlatList, DrawerLayoutAndroid } from "react-native";
 import { observer } from "mobx-react";
 import { computed, observable } from "mobx";
-import ItemSale from "./components/ItemSale";
-import ItemsSales from "../../store/ItemsSales";
+import ItemSale from "./components/ItemSale/ItemSale";
+import ItemsSales from "store/ItemsSales";
 import Toast from "react-native-easy-toast";
-import Logs from "../../store/Logs";
+import Logs from "store/Logs";
 
 @observer
 class Sale extends React.Component<{ navigation: Object }> {
@@ -28,6 +28,7 @@ class Sale extends React.Component<{ navigation: Object }> {
   @observable categoryValue = 1;
   @observable isLoading = false;
   toastRef = React.createRef();
+  drawerRef = React.createRef();
 
   @computed
   get items() {
@@ -103,7 +104,8 @@ class Sale extends React.Component<{ navigation: Object }> {
   };
 
   handleControlPanel = () => {
-    this.props.navigation.navigate("SettingsScreen");
+    this.drawerRef.current.openDrawer();
+    //this.props.navigation.navigate("SettingsScreen");
   };
 
   renderPlaceholder = () => {
@@ -194,28 +196,44 @@ class Sale extends React.Component<{ navigation: Object }> {
       </React.Fragment>
     );
   };
-
+  navigationView = () => (
+    <View style={{ flex: 1, backgroundColor: "#fff" }}>
+      <Text style={{ margin: 10, fontSize: 15, textAlign: "left" }}>
+        I'm in the Drawer!
+      </Text>
+    </View>
+  );
   render() {
     return (
-      <Container>
-        <Header>
-          <Left>
-            <Button transparent onPress={this.handleControlPanel}>
-              <Icon name="menu" />
-            </Button>
-          </Left>
-          <Body>
-            <Title>Продажа</Title>
-          </Body>
-          <Right>
-            <Button transparent onPress={this.showAlert}>
-              <Text>Очистить </Text>
-            </Button>
-          </Right>
-        </Header>
-        {this.isOpenCheckBox ? this.renderContent() : this.renderPlaceholder()}
-        <Toast ref={this.toastRef} />
-      </Container>
+      <DrawerLayoutAndroid
+        ref={this.drawerRef}
+        drawerWidth={300}
+        drawerPosition={DrawerLayoutAndroid.positions.Left}
+        renderNavigationView={this.navigationView}
+        keyboardDismissMode
+      >
+        <Container>
+          <Header>
+            <Left>
+              <Button transparent onPress={this.handleControlPanel}>
+                <Icon name="menu" />
+              </Button>
+            </Left>
+            <Body>
+              <Title>Продажа</Title>
+            </Body>
+            <Right>
+              <Button transparent onPress={this.showAlert}>
+                <Text>Очистить </Text>
+              </Button>
+            </Right>
+          </Header>
+          {this.isOpenCheckBox
+            ? this.renderContent()
+            : this.renderPlaceholder()}
+          <Toast ref={this.toastRef} />
+        </Container>
+      </DrawerLayoutAndroid>
     );
   }
 }

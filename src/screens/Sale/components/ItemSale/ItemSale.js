@@ -3,8 +3,8 @@ import { Left, Right, Item, Label, Input, Text, Icon } from "native-base";
 import { View, TouchableOpacity, Alert } from "react-native";
 import { observer } from "mobx-react";
 import { observable } from "mobx";
-import ItemsSales from "../../../store/ItemsSales";
-import { CATEGORIES } from "../../../utils/constants";
+import ItemsSales from "../../../../store/ItemsSales";
+import { CATEGORIES } from "../../../../utils/constants";
 
 @observer
 class ItemSale extends React.Component {

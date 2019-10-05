@@ -33,6 +33,10 @@
 		CFDBDC0FE10C452796DC2763 /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6B057A96A8CC4DD7AF323984 /* rubicon-icon-font.ttf */; };
 		EE1D044D8F214737B30A2CA5 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6937AF0A6CA846C4B4BF1BE6 /* SimpleLineIcons.ttf */; };
 		B2C07DA8B98B47589B4F05D1 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28FDE3BDF16C4510A9D6315B /* Zocial.ttf */; };
+		3DC2FF19293D47759254A6E8 /* Comfortaa-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D1BF35852CA24869B6C92497 /* Comfortaa-Bold.ttf */; };
+		E94AE44C39284DB6840CAB8B /* Comfortaa-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6EABA3B4B6744E7889119DA8 /* Comfortaa-Light.ttf */; };
+		39E35472F96244C3856DE024 /* Comfortaa-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F058A5CA504240DFBCA3CB2C /* Comfortaa-Regular.ttf */; };
+		83D2E58EF3894A549303F329 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 616E798A48884F72AFE9E57D /* Fontisto.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +90,10 @@
 		6B057A96A8CC4DD7AF323984 /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; name = "rubicon-icon-font.ttf"; path = "../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		6937AF0A6CA846C4B4BF1BE6 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/native-base/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		28FDE3BDF16C4510A9D6315B /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D1BF35852CA24869B6C92497 /* Comfortaa-Bold.ttf */ = {isa = PBXFileReference; name = "Comfortaa-Bold.ttf"; path = "../assets/fonts/Comfortaa-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6EABA3B4B6744E7889119DA8 /* Comfortaa-Light.ttf */ = {isa = PBXFileReference; name = "Comfortaa-Light.ttf"; path = "../assets/fonts/Comfortaa-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F058A5CA504240DFBCA3CB2C /* Comfortaa-Regular.ttf */ = {isa = PBXFileReference; name = "Comfortaa-Regular.ttf"; path = "../assets/fonts/Comfortaa-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		616E798A48884F72AFE9E57D /* Fontisto.ttf */ = {isa = PBXFileReference; name = "Fontisto.ttf"; path = "../node_modules/native-base/Fonts/Fontisto.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,6 +222,10 @@
 				6B057A96A8CC4DD7AF323984 /* rubicon-icon-font.ttf */,
 				6937AF0A6CA846C4B4BF1BE6 /* SimpleLineIcons.ttf */,
 				28FDE3BDF16C4510A9D6315B /* Zocial.ttf */,
+				D1BF35852CA24869B6C92497 /* Comfortaa-Bold.ttf */,
+				6EABA3B4B6744E7889119DA8 /* Comfortaa-Light.ttf */,
+				F058A5CA504240DFBCA3CB2C /* Comfortaa-Regular.ttf */,
+				616E798A48884F72AFE9E57D /* Fontisto.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -373,6 +385,10 @@
 				CFDBDC0FE10C452796DC2763 /* rubicon-icon-font.ttf in Resources */,
 				EE1D044D8F214737B30A2CA5 /* SimpleLineIcons.ttf in Resources */,
 				B2C07DA8B98B47589B4F05D1 /* Zocial.ttf in Resources */,
+				3DC2FF19293D47759254A6E8 /* Comfortaa-Bold.ttf in Resources */,
+				E94AE44C39284DB6840CAB8B /* Comfortaa-Light.ttf in Resources */,
+				39E35472F96244C3856DE024 /* Comfortaa-Regular.ttf in Resources */,
+				83D2E58EF3894A549303F329 /* Fontisto.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

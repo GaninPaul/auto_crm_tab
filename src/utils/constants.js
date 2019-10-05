@@ -9,3 +9,13 @@ export const CATEGORIES = new Map([
   [4, "Перчатки"],
   [5, "Инструменты"]
 ]);
+export const BUTTONS_SIZES = {
+  LARGE: "large",
+  SMALL: "small",
+  REGULAR: "regular"
+};
+export const FONTS = {
+  COMFORTAA_BOLD: "Comfortaa-Bold",
+  COMFORTAA_LIGHT: "Comfortaa-Light",
+  COMFORTAA_REGULAR: "Comfortaa-Regular"
+};

@@ -32,6 +32,8 @@ target 'mobile2' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
   target 'mobile2Tests' do
     inherit! :search_paths
     # Pods for testing
