@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import styles from "./RoundButton.styles";
-import { BUTTONS_SIZES } from "../../utils/constants";
+import { BUTTONS_SIZES } from "utils/constants";
 import ActivityIndicator from "../Icons/ActivityIndicator";
 
 class RoundButton extends PureComponent {
@@ -13,7 +13,8 @@ class RoundButton extends PureComponent {
       isLoading,
       testStyle,
       size,
-      color
+      color,
+      disabled
     } = this.props;
     let buttonSize = styles.regular;
     let textSize = styles.textRegular;
@@ -48,6 +49,8 @@ class RoundButton extends PureComponent {
           style
         ]}
         onPress={onPress}
+        disabled={disabled}
+        activeOpacity={0.7}
       >
         <Text style={[styles.text, textSize, testStyle]}>{title}</Text>
         {isLoading && (

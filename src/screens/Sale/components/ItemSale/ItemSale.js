@@ -1,10 +1,10 @@
 import React from "react";
-import { Left, Right, Item, Label, Input, Text, Icon } from "native-base";
-import { View, TouchableOpacity, Alert } from "react-native";
+import { View, TouchableOpacity, Alert, Text } from "react-native";
 import { observer } from "mobx-react";
 import { observable } from "mobx";
-import ItemsSales from "../../../../store/ItemsSales";
-import { CATEGORIES } from "../../../../utils/constants";
+import ItemsSales from "store/ItemsSales";
+import { CATEGORIES } from "utils/constants";
+import Input from "components/Input";
 
 @observer
 class ItemSale extends React.Component {
@@ -60,35 +60,34 @@ class ItemSale extends React.Component {
           borderBottomWidth: 2
         }}
       >
-        <Left>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "row"
-            }}
-          >
-            <View style={{ marginVertical: 30 }}>
-              <TouchableOpacity onPress={() => this.showAlert()}>
-                <Icon name="trash" />
-              </TouchableOpacity>
-            </View>
-            <View style={{ marginVertical: 30, marginLeft: 50 }}>
-              <Text style={{ fontSize: 20 }}>
-                {CATEGORIES.get(this.props.item.product)}
-              </Text>
-            </View>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row"
+          }}
+        >
+          <View style={{ marginVertical: 30 }}>
+            <TouchableOpacity onPress={() => this.showAlert()}>
+              <Text>Trash</Text>
+            </TouchableOpacity>
           </View>
-        </Left>
-        <Right style={{ marginBottom: 10, marginTop: 0 }}>
-          <Item stackedLabel style={{ width: "100%" }} error={!this.isValid}>
-            <Label>Цена</Label>
+          <View style={{ marginVertical: 30, marginLeft: 50 }}>
+            <Text style={{ fontSize: 20 }}>
+              {CATEGORIES.get(this.props.item.product)}
+            </Text>
+          </View>
+        </View>
+
+        <View style={{ marginBottom: 10, marginTop: 0 }}>
+          <View stackedLabel style={{ width: "100%" }} error={!this.isValid}>
+            <Text>Цена</Text>
             <Input
               onChangeText={this.inputValidation}
               keyboardType="numeric"
               value={this.inputValue}
             />
-          </Item>
-        </Right>
+          </View>
+        </View>
       </View>
     );
   }

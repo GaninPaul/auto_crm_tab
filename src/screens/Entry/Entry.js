@@ -20,6 +20,10 @@ import ActivityIndicator from "components/Icons/ActivityIndicator";
 
 @observer
 class Entry extends React.Component {
+  static navigationOptions = {
+    header: null
+  };
+
   @observable isLoading = false;
   @observable hasNetWorkError = false;
   @observable serverAddress = "";
@@ -88,16 +92,19 @@ class Entry extends React.Component {
           onChangeText={this.handleInput}
           value={this.serverAddress}
           label="Адресс сервера"
+          inputStyle={{height: 30}}
         />
         <Input
           onChangeText={this.handleUsername}
           value={this.username}
           label="Пользователь"
+          inputStyle={{height: 30}}
         />
         <Input
           onChangeText={this.handlePassword}
           value={this.password}
           inputProps={{ secureTextEntry: true }}
+          inputStyle={{height: 30}}
         />
         <RoundButton
           title="Переподключиться"

@@ -1,5 +1,6 @@
 import { flow, types } from "mobx-state-tree";
 import { get } from "../service/api";
+import moment from "moment";
 
 const Logs = types
   .model({
@@ -16,11 +17,12 @@ const Logs = types
       }),
       openCheckBox: flow(function*() {
         yield get({ url: "/api/shop/cashier/open" });
-        yield new Promise((resolve, reject) => {
+        yield new Promise((resolve, _) => {
           setTimeout(() => {
             resolve();
           }, 5000);
         });
+        self.cashierChange = moment().format("HH:mm DD-MM-YYYY");
         self.isOpenCheckBox = true;
       }),
       closeCheckBox: flow(function*() {

@@ -1,38 +1,78 @@
 import {
-  createBottomTabNavigator,
-  createStackNavigator,
   createDrawerNavigator,
-  createAppContainer
+  createAppContainer,
+  createStackNavigator
 } from "react-navigation";
-import SaleScreen from "../screens/Sale/Sale";
-import SettingsScreen from "../screens/Settings/Settings";
-import MakeReturnScreen from "../screens/MakeReturn/MakeReturn";
-import ListSalesScreen from "../screens/ListSales/ListSales";
-import EntryScreen from "../screens/Entry/Entry";
+import SaleScreen from "screens/Sale";
+import SettingsScreen from "screens/Settings";
+import MakeReturnScreen from "screens/MakeReturn";
+import ListSalesScreen from "screens/ListSales";
+import EntryScreen from "screens/Entry";
+
+const SaleScreenNavigator = createStackNavigator({
+  screen: SaleScreen
+});
+
+const SettingsScreenNavigator = createStackNavigator({
+  screen: SettingsScreen
+});
+
+const MakeReturnScreenNavigator = createStackNavigator({
+  screen: MakeReturnScreen
+});
+
+const ListSalesScreenNavigator = createStackNavigator({
+  screen: ListSalesScreen
+});
 
 const BottomNavigator = createDrawerNavigator(
   {
-    SaleScreen,
-    SettingsScreen,
-    MakeReturnScreen,
-    ListSalesScreen
+    SaleScreen: {
+      screen: SaleScreenNavigator,
+      navigationOptions: {
+        drawerLabel: "Продажа"
+      }
+    },
+    SettingsScreen: {
+      screen: SettingsScreenNavigator,
+      navigationOptions: {
+        drawerLabel: "Управление терминалом"
+      }
+    },
+    MakeReturnScreen: {
+      screen: MakeReturnScreenNavigator,
+      navigationOptions: {
+        drawerLabel: "Отмена продажи"
+      }
+    },
+    ListSalesScreen: {
+      screen: ListSalesScreenNavigator,
+      navigationOptions: {
+        drawerLabel: "Список продаж"
+      }
+    }
   },
   {
     initialRouteName: "SaleScreen",
-    defaultNavigationOptions: {
+    drawerType: "slide",
+    overlayColor: 0.8,
+    contentOptions: {
+      activeTintColor: "#e91e63"
+    },
+    navigationOptions: {
       header: null
     }
   }
 );
 
-const AppNavigator = createDrawerNavigator(
+const AppNavigator = createStackNavigator(
   {
     EntryScreen,
     BottomNavigator
   },
   {
     initialRouteName: "EntryScreen",
-    defaultNavigationOptions: {
+    navigationOptions: {
       header: null
     }
   }

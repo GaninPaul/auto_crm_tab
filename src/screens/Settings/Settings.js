@@ -1,24 +1,19 @@
 import React from "react";
-import {
-  Container,
-  Header,
-  Title,
-  Content,
-  Button,
-  Right,
-  Left,
-  Text,
-  Card,
-  CardItem,
-  Body
-} from "native-base";
-import { Alert } from "react-native";
+import { Alert, ScrollView, View, Text } from "react-native";
 import { observer } from "mobx-react";
 import { computed, observable } from "mobx";
-import Logs from "../../store/Logs";
+import Logs from "store/Logs";
+import { defaultNavigationOptions } from "entry/utils";
+import styles from "./Settings.styles";
+import RoundButton from "components/RoundButton";
 
 @observer
 class Settings extends React.Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: "Управление терминалом",
+    ...defaultNavigationOptions(navigation)
+  });
+
   @observable isLoading = false;
 
   @computed
@@ -77,81 +72,43 @@ class Settings extends React.Component {
     }
   };
 
+  renderCheckOpen = () => {
+    return (
+      <View style={styles.wrapper}>
+        <RoundButton
+          title="Открыть кассу"
+          onPress={this.openCheckBox}
+          isLoading={this.isLoading}
+          disabled={this.isLoading}
+          style={styles.button}
+        />
+      </View>
+    );
+  };
+
+  renderCheckClose = () => {
+    return (
+      <View style={styles.wrapper}>
+        <Text style={styles.title}>Касса открыта с {Logs.cashierChange}</Text>
+        <RoundButton
+          title="Закрыть кассу"
+          onPress={this.closeCheckBox}
+          isLoading={this.isLoading}
+          disabled={this.isLoading}
+          style={styles.button}
+        />
+      </View>
+    );
+  };
   render() {
     return (
-      <Container>
-        <Header>
-          <Left>
-            <Title>Управление</Title>
-          </Left>
-          <Right>
-            <Button transparent onPress={this.handleControlPanel}>
-              <Text>Закрыть </Text>
-            </Button>
-          </Right>
-        </Header>
-        <Content>
-          {!this.isOpenCheckBox ? (
-            <Button
-              style={{ marginTop: 10 }}
-              full
-              success
-              disabled={this.isLoading}
-              onPress={this.openCheckBox}
-            >
-              <Text style={{ fontSize: 25, color: "#ffffff" }}>
-                Открыть кассу
-              </Text>
-            </Button>
-          ) : (
-            <>
-              <Card style={{ margin: 20 }}>
-                <CardItem>
-                  <Body>
-                    <Text style={{ fontSize: 20 }}>
-                      Касса открыта с {Logs.cashierChange}
-                    </Text>
-                  </Body>
-                </CardItem>
-              </Card>
-              <Button
-                disabled={this.isLoading}
-                style={{ marginTop: 10 }}
-                full
-                onPress={this.closeCheckBox}
-              >
-                <Text style={{ fontSize: 25, color: "#ffffff" }}>
-                  Закрыть кассу
-                </Text>
-              </Button>
-            </>
-          )}
-          <Button
-            style={{ marginTop: 10 }}
-            full
-            dark
-            onPress={() => {
-              this.props.navigation.navigate("MakeReturnScreen");
-            }}
-          >
-            <Text style={{ fontSize: 25, color: "#ffffff" }}>
-              Оформить возврат
-            </Text>
-          </Button>
-          <Button
-            style={{ marginTop: 10 }}
-            full
-            info
-            onPress={() => {
-              this.props.navigation.navigate("ListSalesScreen");
-            }}
-          >
-            <Text style={{ fontSize: 25, color: "#ffffff" }}>
-              Список продаж
-            </Text>
-          </Button>
-        </Content>
-      </Container>
+      <View style={styles.container}>
+        <ScrollView style={styles.content}>
+          {!this.isOpenCheckBox
+            ? this.renderCheckOpen()
+            : this.renderCheckClose()}
+        </ScrollView>
+      </View>
     );
   }
 }

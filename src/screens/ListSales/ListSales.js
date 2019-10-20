@@ -1,26 +1,21 @@
 import React from "react";
-import {
-  Container,
-  Header,
-  Title,
-  Content,
-  Button,
-  Right,
-  Body,
-  Text,
-  List,
-  Left,
-  ListItem,
-  Icon
-} from "native-base";
-import { Alert, View } from "react-native";
-import { get } from "../../service/api";
+import { ScrollView, View, Text } from "react-native";
+import { get } from "service/api";
 import { observer } from "mobx-react";
 import { observable } from "mobx";
 import Toast from "react-native-easy-toast";
+import { defaultNavigationOptions } from "entry/utils";
+import styles from "./ListSales.styles";
+import RoundButton from "components/RoundButton";
+import { BUTTONS_SIZES } from "utils/constants";
 
 @observer
 class ListSales extends React.Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: "Список продаж",
+    ...defaultNavigationOptions(navigation)
+  });
+
   @observable isLoading = false;
   @observable inputValue = "";
   @observable listSales = [];
@@ -30,9 +25,8 @@ class ListSales extends React.Component {
 
   fetch = async () => {
     try {
-      const url = `/api/shop/sales/?page%5Bnumber%5D=${
-        this.page
-      }&page%5Bsize%5D=${this.pageSize}`;
+      this.isLoading = true;
+      const url = `/api/shop/sales/?page%5Bnumber%5D=${this.page}&page%5Bsize%5D=${this.pageSize}`;
       console.log("url", url);
       const response = await get({
         url
@@ -40,6 +34,8 @@ class ListSales extends React.Component {
       if (response.results) this.listSales = response.results;
     } catch (e) {
       console.log(e);
+    } finally {
+      this.isLoading = false;
     }
   };
   async componentDidMount() {
@@ -62,53 +58,43 @@ class ListSales extends React.Component {
 
   render() {
     return (
-      <Container>
-        <Header>
-          <Left>
-            <Title>Список продаж</Title>
-          </Left>
-          <Right>
-            <Button transparent onPress={this.handleControlPanel}>
-              <Text>Закрыть </Text>
-            </Button>
-          </Right>
-        </Header>
-        <Content>
-          <Body style={{ width: "100%" }}>
-            <List>
-              {this.listSales.map((item, index) => (
-                <ListItem key={index}>
-                  <Text>
-                    {item.id} {JSON.stringify(item)}
-                  </Text>
-                </ListItem>
-              ))}
-            </List>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              <Button
-                disabled={this.page <= 1}
-                iconLeft
-                light
-                onPress={this.backPage}
-              >
-                <Icon name="arrow-back" />
-                <Text>Back</Text>
-              </Button>
-              <Button iconRight light onPress={this.nextPage}>
-                <Text>Next</Text>
-                <Icon name="arrow-forward" />
-              </Button>
+      <View style={styles.container}>
+        <ScrollView style={styles.content}>
+          <View>
+            <View style={styles.header}>
+              <Text style={styles.headerId}>№</Text>
+              <Text style={styles.headerWhen}>Когда</Text>
+              <Text style={styles.headerPrice}>Сумма</Text>
             </View>
-          </Body>
-        </Content>
+            {this.listSales.map((item, index) => (
+              <View key={index} style={styles.header}>
+                <Text style={styles.headerId}>{item.id}</Text>
+                <Text style={styles.headerWhen}>{item.time}</Text>
+                <Text style={styles.headerPrice}>{item.price}</Text>
+              </View>
+            ))}
+          </View>
+          <View style={styles.paginationWrapper}>
+            <RoundButton
+              title="<- Сюда"
+              onPress={this.backPage}
+              isLoading={this.isLoading}
+              disabled={this.isLoading && this.page <= 1}
+              style={styles.button}
+              size={BUTTONS_SIZES.SMALL}
+            />
+            <RoundButton
+              title="Туда ->"
+              onPress={this.nextPage}
+              isLoading={this.isLoading}
+              disabled={this.isLoading}
+              style={styles.button}
+              size={BUTTONS_SIZES.SMALL}
+            />
+          </View>
+        </ScrollView>
         <Toast ref={this.toastRef} />
-      </Container>
+      </View>
     );
   }
 }

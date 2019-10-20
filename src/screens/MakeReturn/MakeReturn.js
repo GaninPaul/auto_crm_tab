@@ -1,27 +1,21 @@
 import React from "react";
-import {
-  Container,
-  Header,
-  Title,
-  Content,
-  Button,
-  Right,
-  Body,
-  Text,
-  Item,
-  Label,
-  Input,
-  Left,
-  Spinner
-} from "native-base";
-import { Alert } from "react-native";
-import { deleteRequest } from "../../service/api";
+import { Alert, ScrollView, View } from "react-native";
+import { deleteRequest } from "service/api";
 import { observer } from "mobx-react";
 import { observable } from "mobx";
 import Toast from "react-native-easy-toast";
+import { defaultNavigationOptions } from "entry/utils";
+import RoundButton from "components/RoundButton";
+import styles from "./MakeReturn.styles";
+import Input from "components/Input";
 
 @observer
 class MakeReturn extends React.Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: "Отмена продажи",
+    ...defaultNavigationOptions(navigation)
+  });
+
   @observable isLoading = false;
   @observable inputValue = "";
   toastRef = React.createRef();
@@ -50,12 +44,12 @@ class MakeReturn extends React.Component {
       await deleteRequest({ url: `/api/shop/sales/${this.inputValue}/` });
       this.toastRef.current.show("Операция выполнена!");
       this.inputValue = "";
-      await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          this.props.navigation.navigate("SaleScreen");
-          resolve();
-        }, 1000);
-      });
+      // await new Promise((resolve, reject) => {
+      //   setTimeout(() => {
+      //     this.props.navigation.navigate("SaleScreen");
+      //     resolve();
+      //   }, 1000);
+      // });
     } catch (e) {
       console.log(e);
       Alert.alert(
@@ -77,43 +71,30 @@ class MakeReturn extends React.Component {
 
   render() {
     return (
-      <Container>
-        <Header>
-          <Left>
-            <Title>Отмена продажи</Title>
-          </Left>
-          <Right>
-            <Button transparent onPress={this.handleControlPanel}>
-              <Text>Закрыть </Text>
-            </Button>
-          </Right>
-        </Header>
-        <Content>
-          <Body style={{ width: "100%" }}>
-            <Item stackedLabel style={{ width: "100%" }} error={!this.isValid}>
-              <Label style={{ fontSize: 30, color: "#000" }}>Номер чека</Label>
-              <Input
-                onChangeText={this.handleInput}
-                keyboardType="numeric"
-                value={this.inputValue}
-              />
-            </Item>
-            <Button
-              style={{ marginTop: 10 }}
-              full
-              dark
-              onPress={this.makeReturn}
-              disabled={this.isLoading}
-            >
-              <Text style={{ fontSize: 25, color: "#ffffff" }}>
-                Оформить возврат
-              </Text>
-              {this.isLoading && <Spinner color="red" />}
-            </Button>
-          </Body>
-        </Content>
+      <View style={styles.container}>
+        <ScrollView style={styles.content}>
+          <View style={styles.inputWrapper}>
+            <Input
+              labelStyle={styles.label}
+              inputStyle={styles.input}
+              onChangeText={this.handleInput}
+              value={this.inputValue}
+              label="Номер чека"
+              inputProps={{
+                keyboardType: "numeric"
+              }}
+            />
+          </View>
+          <RoundButton
+            title="Оформить возврат"
+            onPress={this.makeReturn}
+            isLoading={this.isLoading}
+            disabled={this.isLoading}
+            style={styles.button}
+          />
+        </ScrollView>
         <Toast ref={this.toastRef} />
-      </Container>
+      </View>
     );
   }
 }

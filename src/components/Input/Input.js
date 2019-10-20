@@ -7,6 +7,7 @@ class Input extends Component {
     const {
       style,
       inputStyle,
+      labelStyle,
       onChangeText,
       value,
       validation,
@@ -15,7 +16,7 @@ class Input extends Component {
     } = this.props;
     return (
       <View style={[styles.container, style]}>
-        {label && <Text style={styles.label}>{label}</Text>}
+        {label && <Text style={[styles.label, labelStyle]}>{label}</Text>}
         <View style={styles.border}>
           <TextInput
             style={[styles.content, inputStyle]}
