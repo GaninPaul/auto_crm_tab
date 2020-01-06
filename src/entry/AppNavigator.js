@@ -1,3 +1,5 @@
+import React from "react";
+import { View, Text } from "react-native";
 import {
   createDrawerNavigator,
   createAppContainer,
@@ -55,9 +57,11 @@ const BottomNavigator = createDrawerNavigator(
   {
     initialRouteName: "SaleScreen",
     drawerType: "slide",
+    backBehavior: "initialRoute",
     overlayColor: 0.8,
     contentOptions: {
-      activeTintColor: "#e91e63"
+      activeTintColor: "#e91e63",
+      activeBackgroundColor: "rgba(129,129,129,0.47)"
     },
     navigationOptions: {
       header: null

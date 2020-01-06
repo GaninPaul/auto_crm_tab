@@ -5,7 +5,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
   content: {
-    flex: 1
+    flex: 1,
+    marginBottom: 50
   },
   wrapper: {
     flexGrow: 1
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: "100%",
     flexDirection: "row",
-    backgroundColor: "#fbc1bc",
+    backgroundColor: "#fbc1bc"
   },
 
   footerLeft: {},
@@ -24,7 +25,11 @@ const styles = StyleSheet.create({
     marginLeft: "auto"
   },
   header: {
-    height: 50
+    width: "100%",
+    height: 60,
+    padding: 5,
+    flexDirection: "row",
+    backgroundColor: "#fbc1bc"
   }
 });
 

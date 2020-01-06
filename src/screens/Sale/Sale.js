@@ -9,6 +9,7 @@ import Logs from "store/Logs";
 import styles from "./Sale.styles";
 import RoundButton from "components/RoundButton";
 import { defaultNavigationOptions } from "entry/utils";
+import { FONTS } from "../../utils/constants";
 
 @observer
 class Sale extends React.Component<{ navigation: Object }> {
@@ -21,6 +22,7 @@ class Sale extends React.Component<{ navigation: Object }> {
   @observable categoryValue = 1;
   @observable isLoading = false;
   toastRef = React.createRef();
+  scrollViewRef = React.createRef();
 
   @computed
   get items() {
@@ -135,47 +137,72 @@ class Sale extends React.Component<{ navigation: Object }> {
   renderHeader = () => {
     return (
       <View style={styles.header}>
-        <Picker
-          headerBackButtonText="Отмена"
-          iosHeader="Выбор категрии"
-          mode="dropdown"
-          placeholder="КАТЕГОРИЯ"
-          note={false}
-          style={{ width: 320 }}
-          selectedValue={this.categoryValue}
-          onValueChange={this.onSelectedValueChange}
-          textStyle={{ fontSize: 25 }}
+        <View
+          style={{
+            height: 50,
+            borderWidth: 1,
+            borderRadius: 5,
+            borderColor: "red"
+          }}
         >
-          <Picker.Item style={{ fontSize: 25 }} label="Оптика" value={2} />
-          <Picker.Item style={{ fontSize: 25 }} label="Лампочки" value={1} />
-          <Picker.Item style={{ fontSize: 25 }} label="Отрезные" value={3} />
-          <Picker.Item style={{ fontSize: 25 }} label="Перчатки" value={4} />
-          <Picker.Item style={{ fontSize: 25 }} label="Инструменты" value={5} />
-        </Picker>
-        <RoundButton onPress={this.addItem} title="+" />
+          <Picker
+            headerBackButtonText="Отмена"
+            iosHeader="Выбор категрии"
+            mode="dropdown"
+            placeholder="КАТЕГОРИЯ"
+            note={false}
+            style={{ width: 220 }}
+            selectedValue={this.categoryValue}
+            onValueChange={this.onSelectedValueChange}
+            textStyle={{ fontSize: 25 }}
+          >
+            <Picker.Item style={{ fontSize: 25 }} label="Оптика" value={2} />
+            <Picker.Item style={{ fontSize: 25 }} label="Лампочки" value={1} />
+            <Picker.Item style={{ fontSize: 25 }} label="Отрезные" value={3} />
+            <Picker.Item style={{ fontSize: 25 }} label="Перчатки" value={4} />
+            <Picker.Item
+              style={{ fontSize: 25 }}
+              label="Инструменты"
+              value={5}
+            />
+          </Picker>
+        </View>
+        <View
+          style={{
+            marginLeft: "auto",
+            marginTop: "auto",
+            marginBottom: "auto"
+          }}
+        >
+          <RoundButton onPress={this.addItem} title="Добавить" />
+        </View>
       </View>
     );
   };
   renderContent = () => {
     return (
-      <>
-        {this.renderHeader()}
-        <View style={styles.wrapper}>
-          <FlatList
-            data={this.items}
-            extraData={this.items}
-            renderItem={item => (
-              <ItemSale key={item.index} index={item.index} item={item.item} />
-            )}
-          />
-        </View>
-      </>
+      <View style={styles.wrapper}>
+        <FlatList
+          data={this.items}
+          extraData={this.items}
+          renderItem={item => (
+            <ItemSale key={item.index} index={item.index} item={item.item} />
+          )}
+        />
+      </View>
     );
   };
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.content}>
+        {this.renderHeader()}
+        <ScrollView
+          ref={this.scrollViewRef}
+          style={styles.content}
+          onContentSizeChange={() => {
+            this.scrollViewRef.current.scrollToEnd({ animated: true });
+          }}
+        >
           {this.isOpenCheckBox
             ? this.renderContent()
             : this.renderPlaceholder()}

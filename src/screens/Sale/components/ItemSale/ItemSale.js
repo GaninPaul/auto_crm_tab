@@ -5,6 +5,7 @@ import { observable } from "mobx";
 import ItemsSales from "store/ItemsSales";
 import { CATEGORIES } from "utils/constants";
 import Input from "components/Input";
+import TrashIcon from "components/Icons/TrashIcon";
 
 @observer
 class ItemSale extends React.Component {
@@ -68,7 +69,7 @@ class ItemSale extends React.Component {
         >
           <View style={{ marginVertical: 30 }}>
             <TouchableOpacity onPress={() => this.showAlert()}>
-              <Text>Trash</Text>
+              <TrashIcon onPress={() => {}} />
             </TouchableOpacity>
           </View>
           <View style={{ marginVertical: 30, marginLeft: 50 }}>
@@ -79,7 +80,11 @@ class ItemSale extends React.Component {
         </View>
 
         <View style={{ marginBottom: 10, marginTop: 0 }}>
-          <View stackedLabel style={{ width: "100%" }} error={!this.isValid}>
+          <View
+            stackedLabel
+            style={{ width: 150, height: 70 }}
+            error={!this.isValid}
+          >
             <Text>Цена</Text>
             <Input
               onChangeText={this.inputValidation}
