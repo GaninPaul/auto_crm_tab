@@ -1,9 +1,9 @@
 import React from "react";
-import { View, TouchableOpacity, Alert, Text } from "react-native";
-import { observer } from "mobx-react";
-import { observable } from "mobx";
+import {Alert, Text, TouchableOpacity, View} from "react-native";
+import {observer} from "mobx-react";
+import {observable} from "mobx";
 import ItemsSales from "store/ItemsSales";
-import { CATEGORIES } from "utils/constants";
+import {CATEGORIES} from "utils/constants";
 import Input from "components/Input";
 import TrashIcon from "components/Icons/TrashIcon";
 
@@ -88,7 +88,7 @@ class ItemSale extends React.Component {
             <Text>Цена</Text>
             <Input
               onChangeText={this.inputValidation}
-              keyboardType="numeric"
+              inputProps={{ keyboardType: "numeric" }}
               value={this.inputValue}
             />
           </View>

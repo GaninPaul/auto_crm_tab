@@ -1,21 +1,21 @@
 import React from "react";
-import { View, Text, ScrollView } from "react-native";
-import { createUserJWT, IsAuth, SetIsAuth, verifyTokens } from "service/Auth";
+import {ScrollView, Text, View} from "react-native";
+import {createUserJWT, IsAuth, SetIsAuth, verifyTokens} from "service/Auth";
 import {
   getPassword,
   getServerAddress,
+  getUsername,
+  setPassword,
   setServerAddress,
   SetUp,
-  getUsername,
-  setUsername,
-  setPassword
+  setUsername
 } from "service/Setup";
 import Logs from "store/Logs";
 import styles from "./Entry.styles";
 import RoundButton from "components/RoundButton";
 import Input from "components/Input";
-import { observable } from "mobx";
-import { observer } from "mobx-react";
+import {observable} from "mobx";
+import {observer} from "mobx-react";
 import ActivityIndicator from "components/Icons/ActivityIndicator";
 
 @observer
@@ -54,8 +54,8 @@ class Entry extends React.Component {
       this.serverAddress = getServerAddress();
       this.username = getUsername();
       this.password = getPassword();
-      // await this.login();
-      // await Logs.init();
+      await this.login();
+      await Logs.init();
       this.isLoading = false;
       this.props.navigation.navigate("SaleScreen");
     } catch (e) {

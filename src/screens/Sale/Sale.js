@@ -1,22 +1,43 @@
 import React from "react";
-import { Alert, View, FlatList, ScrollView, Picker, Text } from "react-native";
-import { observer } from "mobx-react";
-import { computed, observable } from "mobx";
+import {Alert, FlatList, Picker, ScrollView, Text, View} from "react-native";
+import {observer} from "mobx-react";
+import {computed, observable} from "mobx";
 import ItemSale from "./components/ItemSale/ItemSale";
 import ItemsSales from "store/ItemsSales";
 import Toast from "react-native-easy-toast";
 import Logs from "store/Logs";
 import styles from "./Sale.styles";
 import RoundButton from "components/RoundButton";
-import { defaultNavigationOptions } from "entry/utils";
-import { FONTS } from "../../utils/constants";
+import {defaultNavigationOptions} from "entry/utils";
+import ClearButton from "./components/ClearButton";
 
 @observer
 class Sale extends React.Component<{ navigation: Object }> {
-  static navigationOptions = ({ navigation }) => ({
-    title: "Продажа",
-    ...defaultNavigationOptions(navigation)
-  });
+  static navigationOptions = ({ navigation }) => {
+    function showAlert() {
+      Alert.alert(
+        "Очистить чек",
+        "Это не обратимое действие",
+        [
+          {
+            text: "Да",
+            onPress: () => ItemsSales.clearProduct()
+          },
+          {
+            text: "Нет",
+            onPress: () => {},
+            style: "cancel"
+          }
+        ],
+        { cancelable: false }
+      );
+    }
+    return {
+      title: "Продажа",
+      ...defaultNavigationOptions(navigation),
+      headerRight: <ClearButton onPress={showAlert} />
+    };
+  };
 
   @observable validation = false;
   @observable categoryValue = 1;
@@ -38,25 +59,6 @@ class Sale extends React.Component<{ navigation: Object }> {
   get isOpenCheckBox() {
     return !Logs.isOpenCheckBox;
   }
-
-  showAlert = () => {
-    Alert.alert(
-      "Очистить чек",
-      "Это не обратимое действие",
-      [
-        {
-          text: "Да",
-          onPress: this.cleanItems
-        },
-        {
-          text: "Нет",
-          onPress: () => {},
-          style: "cancel"
-        }
-      ],
-      { cancelable: false }
-    );
-  };
 
   cleanItems = () => {
     ItemsSales.clearProduct();
@@ -203,7 +205,7 @@ class Sale extends React.Component<{ navigation: Object }> {
             this.scrollViewRef.current.scrollToEnd({ animated: true });
           }}
         >
-          {this.isOpenCheckBox
+          {!this.isOpenCheckBox
             ? this.renderContent()
             : this.renderPlaceholder()}
           <Toast ref={this.toastRef} />

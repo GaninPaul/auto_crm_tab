@@ -1,10 +1,5 @@
-import {
-  makeRequest,
-  parseRequestData,
-  withTimeout,
-  baseRequest
-} from "./request";
-import AsyncStorage from '@react-native-community/async-storage';
+import {baseRequest, makeRequest, parseRequestData, withTimeout} from "./request";
+import AsyncStorage from "@react-native-community/async-storage";
 
 let isAuth = false;
 export const Auth = async () => {
@@ -131,6 +126,7 @@ export async function request(url, data, type, headers) {
   } catch (e) {
     if (e.statusCode === 403) {
       await refreshToken();
+      return await request(url, data, type, headers);
     }
   }
 }

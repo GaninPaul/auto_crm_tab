@@ -1,5 +1,5 @@
-import { StyleSheet } from "react-native";
-import { FONTS } from "/utils/constants";
+import {StyleSheet} from "react-native";
+import {FONTS} from "/utils/constants";
 
 const styles = StyleSheet.create({
   container: {
@@ -13,7 +13,9 @@ const styles = StyleSheet.create({
     marginTop: 4,
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    marginBottom: 5,
+    paddingBottom: 5
   },
   header: {
     flexDirection: "row",
