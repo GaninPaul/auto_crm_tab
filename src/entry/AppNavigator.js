@@ -1,15 +1,12 @@
 import React from "react";
-import { View, Text } from "react-native";
-import {
-  createDrawerNavigator,
-  createAppContainer,
-  createStackNavigator
-} from "react-navigation";
+import {createAppContainer, createDrawerNavigator, createStackNavigator} from "react-navigation";
 import SaleScreen from "screens/Sale";
 import SettingsScreen from "screens/Settings";
 import MakeReturnScreen from "screens/MakeReturn";
 import ListSalesScreen from "screens/ListSales";
 import EntryScreen from "screens/Entry";
+import ProductsListScreen from "screens/ProductsList";
+import AddProductScreen from "screens/AddProduct";
 
 const SaleScreenNavigator = createStackNavigator({
   screen: SaleScreen
@@ -25,6 +22,14 @@ const MakeReturnScreenNavigator = createStackNavigator({
 
 const ListSalesScreenNavigator = createStackNavigator({
   screen: ListSalesScreen
+});
+
+const ProductsListScreenNavigator = createStackNavigator({
+  screen: ProductsListScreen
+});
+
+const AddProductScreenNavigator = createStackNavigator({
+  screen: AddProductScreen
 });
 
 const BottomNavigator = createDrawerNavigator(
@@ -51,6 +56,18 @@ const BottomNavigator = createDrawerNavigator(
       screen: ListSalesScreenNavigator,
       navigationOptions: {
         drawerLabel: "Список продаж"
+      }
+    },
+    ProductsListScreen: {
+      screen: ProductsListScreenNavigator,
+      navigationOptions: {
+        drawerLabel: "Список товаров"
+      }
+    },
+    AddProductScreen: {
+      screen: AddProductScreenNavigator,
+      navigationOptions: {
+        drawerLabel: "Добавить товар"
       }
     }
   },

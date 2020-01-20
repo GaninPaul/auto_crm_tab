@@ -7,9 +7,9 @@ const styles = StyleSheet.create({
   text: { color: "#fff", fontFamily: FONTS.COMFORTAA_BOLD }
 });
 
-const ClearButton = ({ onPress, style }) => (
+const ClearButton = ({ onPress, style, text }) => (
   <TouchableOpacity onPress={onPress} style={[styles.content, style]}>
-    <Text style={styles.text}>Очистить</Text>
+    <Text style={styles.text}>{text}</Text>
   </TouchableOpacity>
 );
 

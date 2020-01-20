@@ -9,7 +9,7 @@ import Logs from "store/Logs";
 import styles from "./Sale.styles";
 import RoundButton from "components/RoundButton";
 import {defaultNavigationOptions} from "entry/utils";
-import ClearButton from "./components/ClearButton";
+import ClearButton from "../../components/ClearButton";
 
 @observer
 class Sale extends React.Component<{ navigation: Object }> {
@@ -35,7 +35,7 @@ class Sale extends React.Component<{ navigation: Object }> {
     return {
       title: "Продажа",
       ...defaultNavigationOptions(navigation),
-      headerRight: <ClearButton onPress={showAlert} />
+      headerRight: <ClearButton onPress={showAlert} text="Очистить" />
     };
   };
 
